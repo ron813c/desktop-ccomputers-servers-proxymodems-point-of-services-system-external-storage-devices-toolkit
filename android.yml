@@ -1,0 +1,46 @@
+const lighthouse = require('lighthouse');
+const chromeLauncher = require('chrome-launcher');
+
+function launchChromeAndRunLighthouse(url, opts, config = null) {
+  return chromeLauncher.launch({chromeFlags: opts.chromeFlags}).then(chrome => {
+    opts.port = chrome.port;
+    return lighthouse(url, opts, config).then(results => {
+      // use results.lhr for the JS-consumeable output
+      // https://github.com/GoogleChrome/lighthouse/blob/master/types/lhr.d.ts
+      // use results.report for the HTML/JSON/CSV output as a string
+      // use results.artifacts for the trace/screenshots/other specific case you need (rarer)
+      return chrome.kill().then(() => results.lhr)
+    });
+  });
+}
+
+const opts = {
+  chromeFlags: ['--show-paint-rects']
+};
+
+// Usage:
+launchChromeAndRunLighthouse('https://example.com', opts).then(results => {
+  // Use results!
+});% module load gcc/6.1.1
+% which gcc
+/usr/local/gcc/6.1.1/linux-x86_64/bin/gcc
+
+Now we'll switch to a different version of the module
+
+% module switch gcc gcc/6.3.1
+% which gcc
+/usr/local/gcc/6.3.1/linux-x86_64/bin/gcc
+
+And now we'll unload the module altogether
+
+% module unload gcc
+% which gcc
+gcc not found
+
+Now we'll log into a different machine, using a different shell (tcsh).
+
+tardis-> module load gcc/6.3.1
+tardis-> which gcc
+/usr/local/gcc/6.3.1/linux-aarch64/bin/gcc͝�6��;�G�_1Rn�EKd�
+_����
+iy���]�D��V�y�p��P�2@��IY
